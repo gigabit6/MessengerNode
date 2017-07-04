@@ -1,0 +1,6 @@
+<h1>Start chat with: </h1>
+{{#each users}}
+<div class="panel panel-large">
+    <a href="/thread/{{this.username}}" class="large-link">{{this.username}}</a>
+</div>
+{{/each}}

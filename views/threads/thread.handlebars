@@ -1,0 +1,60 @@
+<h1>Chat with {{user.username}}</h1>
+{{#if thread.allowUnblock}}
+    <form action="/unblock/{{user.username}}" method="POST">
+        <input type="submit" value="Unblock" class="btn btn-danger" />
+    </form>
+{{/if}}
+{{#if thread.notBlocked}}
+    <form action="/block/{{user.username}}" method="POST">
+        <input type="submit" value="Block" class="btn btn-danger" />
+    </form>
+{{/if}}
+</br>
+<ul class="list-group thread-style">
+    {{#each messages}} 
+        {{#if loggedUser}}
+            <li class="list-group-item text-right">
+                <p><strong>{{{this.content}}}</strong></p>
+                </br>
+                <small> Sent By: {{this.user.username}} </small>
+                </br>
+                {{#if this.isLiked}}
+                <small>Tweet was liked</small>
+                {{/if}}
+            </li>
+        {{else}}
+            <li class="list-group-item">
+                <p><strong>{{{this.content}}}</strong></p>
+                </br>
+                <small> Sent By: {{this.user.username}}  </small>
+                {{#if toBeLiked}}
+                <form action="/like/{{this._id}}" method="POST">
+                    <input type="hidden" name="user" value="{{user.username}}" />
+                    <input type="submit" value="Like" class="btn btn-default btn-xs" />
+                </form>
+                {{else}}
+                <form action="/unlike/{{this._id}}" method="POST">
+                    <input type="hidden" name="user" value="{{user.username}}" />
+                    <input type="submit" value="Unlike" class="btn btn-default btn-xs" />
+                </form>
+                {{/if}}
+            </li>
+        {{/if}} 
+    {{/each}}
+</ul>
+{{#if thread.blocked}}
+    <h3>The Other User Blocked You!</h3>
+{{/if}} 
+{{#if thread.notBlocked}}
+    <form action="/add" method="POST">
+        <input type="hidden" name="thread" value="{{thread._id}}" />
+        <input type="hidden" name="user" value="{{user.username}}" />
+        <div class="form-group">
+            <label for="content"></label>
+            <textarea name="content" id="content" class="form-control" /></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Send Message" class="btn btn-default" />
+        </div>
+    </form>
+{{/if}}

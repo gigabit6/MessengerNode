@@ -1,0 +1,7 @@
+.large-link{
+    font-size: 2em;
+}
+.thread-style{
+  max-height: 600px;
+  overflow-y: scroll;
+}
